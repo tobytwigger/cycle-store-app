@@ -1,0 +1,1 @@
+const API_URL = 'https://c379-94-1-148-183.ngrok.io/api'; // Put your API URL here, e.g. https://abcd1234.ngrok.io/api
