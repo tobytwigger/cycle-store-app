@@ -35,6 +35,7 @@ class _LoginScreenState extends State<LoginScreen> {
     var client = await ClientFactory.create();
     var userRepository = UserRepository(client);
     User? currentUser = await userRepository.getCurrentUser();
+    if (!mounted) return;
     Provider.of<CurrentUser>(context, listen: false).user = currentUser;
   }
 
