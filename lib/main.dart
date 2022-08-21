@@ -32,24 +32,17 @@ class _MyAppState extends State<MyApp> {
 
   Future<User?> loadCurrentUser() async {
     try {
-      log('Starting');
-
       var factory = await ClientFactory.create();
-        log('HERE');
         return await UserRepository(factory).getCurrentUser();
       } catch (e) {
-      log(e.toString());
       return null;
     }
   }
-
-  User? user;
 
   @override
   void initState() {
     super.initState();
     _future = loadCurrentUser();
-    _future.then((User? currentUser) => setState(() => user = currentUser));
     _future.then((User? currentUser) => Provider.of<CurrentUser>(context, listen: false).user = currentUser);
   }
 
@@ -107,7 +100,6 @@ class _MyAppState extends State<MyApp> {
       // if the user is not logged in, they need to login
       final bool loggedIn =
           Provider.of<CurrentUser>(context, listen: false).user != null;
-      log(loggedIn ? 'Y' : 'N');
       final bool guestAllowed = ['/login', '/'].contains(state.subloc);
       if (!loggedIn) {
         return guestAllowed ? null : '/login';

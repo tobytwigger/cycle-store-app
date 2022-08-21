@@ -85,6 +85,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: ElevatedButton(
                     child: const Text('Login'),
                     onPressed: () {
+                      submitForm();
                       if (_formKey.currentState!.validate()) {
                         _formKey.currentState!.save();
                         submitForm();

@@ -33,7 +33,6 @@ class Activity {
   });
 
   factory Activity.fromJson(Map<String, dynamic> json) {
-    log(json.toString());
     return Activity(
       id: json['id'] as int,
       name: json['name'] as String?,
