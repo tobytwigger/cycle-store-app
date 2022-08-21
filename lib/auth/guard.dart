@@ -15,8 +15,14 @@ class UserGuard {
   }
 
   Future<String?> get() async {
-    const storage = FlutterSecureStorage();
-    return await storage.read(key: 'token');
+    try {
+      const storage = FlutterSecureStorage();
+      return await storage.read(key: 'token');
+    } catch (e) {
+      log(e.toString());
+      log('test');
+    }
+
   }
 
   Future<void> clear() async {

@@ -1,21 +1,22 @@
 import 'package:cycle_store_app/api/factory.dart';
-import 'package:cycle_store_app/api/models.dart';
+import 'package:cycle_store_app/api/models/user.dart';
 import 'package:cycle_store_app/api/repositories/user.dart';
 import 'package:cycle_store_app/auth/auth.dart';
 import 'package:cycle_store_app/auth/currentUser.dart';
+import 'package:cycle_store_app/widgets/page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class LoginForm extends StatefulWidget {
-  const LoginForm({
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({
     Key? key,
   }) : super(key: key);
 
   @override
-  LoginFormState createState() => LoginFormState();
+  State<LoginScreen> createState() => _LoginScreenState();
 }
 
-class LoginFormState extends State<LoginForm> {
+class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
   String _email = '';
   String _password = '';
@@ -39,20 +40,17 @@ class LoginFormState extends State<LoginForm> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        // Here we take the value from the LoginScreen object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: const Text('Sign In'),
-      ),
-      body: Center(
+    return PageWidget(
+      includeDrawer: false,
+      header: 'Sign In',
+      child: Center(
         child: Form(
             key: _formKey,
             child: Padding(
               padding: const EdgeInsets.all(40.0),
               child: ListView(children: <Widget>[
                 TextFormField(
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                       hintText: 'Email',
                       icon: Icon(
                         Icons.mail,
@@ -63,7 +61,7 @@ class LoginFormState extends State<LoginForm> {
                   onSaved: (value) => _email = value ?? '',
                 ),
                 TextFormField(
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     hintText: 'Password',
                     icon: Icon(
                       Icons.lock,
@@ -79,13 +77,13 @@ class LoginFormState extends State<LoginForm> {
                   padding: const EdgeInsets.fromLTRB(0.0, 16.0, 0.0, 0.0),
                   child: Text(
                     _errorMessage,
-                    style: TextStyle(color: Colors.red),
+                    style: const TextStyle(color: Colors.red),
                   ),
                 ),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(0.0, 8.0, 0.0, 0.0),
                   child: ElevatedButton(
-                    child: Text('Login'),
+                    child: const Text('Login'),
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
                         _formKey.currentState!.save();

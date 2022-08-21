@@ -1,4 +1,4 @@
-import 'package:cycle_store_app/api/models.dart';
+import 'package:cycle_store_app/api/models/user.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';

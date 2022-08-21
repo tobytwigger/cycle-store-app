@@ -1,8 +1,9 @@
 import 'package:cycle_store_app/api/factory.dart';
-import 'package:cycle_store_app/api/models.dart';
+import 'package:cycle_store_app/api/models/user.dart';
 import 'package:cycle_store_app/api/repositories/user.dart';
 import 'package:cycle_store_app/auth/currentUser.dart';
 import 'package:cycle_store_app/auth/guard.dart';
+import 'package:cycle_store_app/screens/activity.dart';
 import 'package:cycle_store_app/screens/welcome.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -31,18 +32,24 @@ class _MyAppState extends State<MyApp> {
 
   Future<User?> loadCurrentUser() async {
     try {
-      return await UserRepository(
-          await ClientFactory.create()
-      ).getCurrentUser();
-    } catch (e) {
+      log('Starting');
+
+      var factory = await ClientFactory.create();
+        log('HERE');
+        return await UserRepository(factory).getCurrentUser();
+      } catch (e) {
+      log(e.toString());
       return null;
     }
   }
+
+  User? user;
 
   @override
   void initState() {
     super.initState();
     _future = loadCurrentUser();
+    _future.then((User? currentUser) => setState(() => user = currentUser));
     _future.then((User? currentUser) => Provider.of<CurrentUser>(context, listen: false).user = currentUser);
   }
 
@@ -69,21 +76,28 @@ class _MyAppState extends State<MyApp> {
         name: 'welcome',
         path: '/',
         builder: (BuildContext context, GoRouterState state) {
-          return const Welcome();
+          return const WelcomeScreen();
         },
       ),
       GoRoute(
         path: '/login',
         name: 'login',
         builder: (BuildContext context, GoRouterState state) {
-          return const LoginForm();
+          return const LoginScreen();
         },
       ),
       GoRoute(
         path: '/dashboard',
         name: 'dashboard',
         builder: (BuildContext context, GoRouterState state) {
-          return const Dashboard();
+          return const DashboardScreen();
+        },
+      ),
+      GoRoute(
+        path: '/activity',
+        name: 'activity.index',
+        builder: (BuildContext context, GoRouterState state) {
+          return const ActivityScreen();
         },
       ),
     ],
@@ -93,6 +107,7 @@ class _MyAppState extends State<MyApp> {
       // if the user is not logged in, they need to login
       final bool loggedIn =
           Provider.of<CurrentUser>(context, listen: false).user != null;
+      log(loggedIn ? 'Y' : 'N');
       final bool guestAllowed = ['/login', '/'].contains(state.subloc);
       if (!loggedIn) {
         return guestAllowed ? null : '/login';

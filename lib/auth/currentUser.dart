@@ -1,4 +1,4 @@
-import 'package:cycle_store_app/api/models.dart';
+import 'package:cycle_store_app/api/models/user.dart';
 import 'package:flutter/material.dart';
 import 'dart:developer';
 
@@ -11,7 +11,6 @@ class CurrentUser extends ChangeNotifier {
   }
 
   set user(User? user) {
-    log('Setting user');
     _user = user;
     notifyListeners();
   }
